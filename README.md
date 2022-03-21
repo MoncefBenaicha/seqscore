@@ -43,7 +43,7 @@ predictions. Let's assume you have two files, one containing the
 correct labels (annotation) and the other containing the predictions
 (system output).
 
-The correct labels are in the file `reference.bio`:
+The correct labels are in the file [reference.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference.bio):
 ```
 This O
 is O
@@ -63,7 +63,7 @@ Pennsylvania B-LOC
 . O
 ```
 
-The predictions are in the file `predicted.bio`:
+The predictions are in the file [predicted.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/predicted.bio):
 ```
 This O
 is O
@@ -85,6 +85,8 @@ Pennsylvania B-LOC
 
 To score the predictions, run:
 `seqscore score --labels BIO --reference reference.bio predicted.bio`
+
+the result is [here](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_predicted_score.txt)
 ```
 | Type   |   Precision |   Recall |     F1 |   Reference |   Predicted |   Correct |
 |--------|-------------|----------|--------|-------------|-------------|-----------|
