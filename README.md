@@ -132,7 +132,7 @@ Pennsylvania B-LOC
 Note that the token `University` has the label `I-ORG`, but there is
 no preceding `B-ORG`. If we try to score it as before with `seqscore
 score --labels BIO --reference samples/reference.bio samples/invalid.bio`, scoring
-will fail with an [error](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_score.txt):
+will fail with an error in the file [samples/reference_invalid_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_score.txt):
 ```
 seqscore.encoding.EncodingError: Stopping due to validation errors in invalid.bio:
 Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
@@ -141,7 +141,7 @@ Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
 To score output with invalid transitions, we need to specify a repair
 method which can correct them. We can tell SeqScore to use the same
 approach that conlleval uses (which we refer to as "begin" repair in our
-paper): `seqscore score --labels BIO --repair-method conlleval  --reference samples/reference.bio samples/invalid.bio`, the result will be [this](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_repair_score.txt):
+paper): `seqscore score --labels BIO --repair-method conlleval  --reference samples/reference.bio samples/invalid.bio`, the result will be in the file [samples/reference_invalid_repair_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_repair_score.txt):
 
 ```
 Validation errors in sequence at line 7 of invalid.bio:
@@ -159,7 +159,9 @@ New: ('B-ORG', 'I-ORG', 'I-ORG', 'O', 'O', 'B-LOC', 'I-LOC', 'O', 'B-LOC', 'O')
 You can use the `-q` flag to suppress the logging of all of the repairs
 applied. You may want to also explore the `discard` repair, which can
 produce higher scores for output from models without a CRF or constrained
-decoding as they are more likely to produce invalid transitions.
+decoding as they are more likely to produce invalid transitions. For example,
+the result of running `seqscore score --labels BIO --repair-method discard --reference samples/reference.bio samples/invalid.bio` is 
+in the file [samples/reference_invalid_discard_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_discard_score.txt).
 
 ## Other commands
 
