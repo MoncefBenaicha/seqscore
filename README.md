@@ -131,8 +131,8 @@ Pennsylvania B-LOC
 
 Note that the token `University` has the label `I-ORG`, but there is
 no preceding `B-ORG`. If we try to score it as before with `seqscore
-score --labels BIO --reference reference.bio invalid.bio`, scoring
-will fail with an error:
+score --labels BIO --reference samples/reference.bio samples/invalid.bio`, scoring
+will fail with an [error](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_score.txt):
 ```
 seqscore.encoding.EncodingError: Stopping due to validation errors in invalid.bio:
 Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
@@ -141,7 +141,7 @@ Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
 To score output with invalid transitions, we need to specify a repair
 method which can correct them. We can tell SeqScore to use the same
 approach that conlleval uses (which we refer to as "begin" repair in our
-paper): `seqscore score --labels BIO --repair-method conlleval  --reference reference.bio invalid.bio`
+paper): `seqscore score --labels BIO --repair-method conlleval  --reference samples/reference.bio samples/invalid.bio`, the result will be [this](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_repair_score.txt):
 
 ```
 Validation errors in sequence at line 7 of invalid.bio:
