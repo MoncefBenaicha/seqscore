@@ -84,9 +84,9 @@ Pennsylvania B-LOC
 ```
 
 To score the predictions, run:
-`seqscore score --labels BIO --reference reference.bio predicted.bio`
+`seqscore score --labels BIO --reference samples/reference.bio samples/predicted.bio`
 
-the result is [here](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_predicted_score.txt)
+the result is in [samples/reference_predicted_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_predicted_score.txt)
 ```
 | Type   |   Precision |   Recall |     F1 |   Reference |   Predicted |   Correct |
 |--------|-------------|----------|--------|-------------|-------------|-----------|
@@ -108,7 +108,7 @@ A few things to note:
 The above scoring command will work for files that do not have any
 invalid transitions, that is, those that perfectly follow what the
 encoding allows. However, consider this BIO-encoded file, which we'll
-call `invalid.bio`:
+call [samples/invalid.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid.bio):
 
 ```
 This O
