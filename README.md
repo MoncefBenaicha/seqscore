@@ -43,7 +43,7 @@ predictions. Let's assume you have two files, one containing the
 correct labels (annotation) and the other containing the predictions
 (system output).
 
-The correct labels are in the file `reference.bio`:
+The correct labels are in the file [samples/reference.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference.bio):
 ```
 This O
 is O
@@ -63,7 +63,7 @@ Pennsylvania B-LOC
 . O
 ```
 
-The predictions are in the file `predicted.bio`:
+The predictions are in the file [samples/predicted.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/predicted.bio):
 ```
 This O
 is O
@@ -84,7 +84,9 @@ Pennsylvania B-LOC
 ```
 
 To score the predictions, run:
-`seqscore score --labels BIO --reference reference.bio predicted.bio`
+`seqscore score --labels BIO --reference samples/reference.bio samples/predicted.bio`
+
+the result is in [samples/reference_predicted_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_predicted_score.txt)
 ```
 | Type   |   Precision |   Recall |     F1 |   Reference |   Predicted |   Correct |
 |--------|-------------|----------|--------|-------------|-------------|-----------|
@@ -106,7 +108,7 @@ A few things to note:
 The above scoring command will work for files that do not have any
 invalid transitions, that is, those that perfectly follow what the
 encoding allows. However, consider this BIO-encoded file, which we'll
-call `invalid.bio`:
+call [samples/invalid.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid.bio):
 
 ```
 This O
