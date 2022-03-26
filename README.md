@@ -175,6 +175,86 @@ To check if a file has any invalid transitions, we can run `seqscore validate --
 Encountered 1 errors in 1 tokens, 2 sequences, and 1 documents in invalid.bio
 Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
  ```
+## Convert
+
+We can convert a file from one encoding to another. For example, we can run `seqscore convert --input-labels BIO --output-labels BIOES samples/reference.bio samples/reference_convert_BIO_BIOES.bio` to convert the [samples/reference.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference.bio) from BIO encoding to BIOES encoding. The result is in [reference_convert_BIO_BIOES.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_convert_BIO_BIOES.bio):
+```
+This O
+is O
+a O
+sentence O
+. O
+
+University B-ORG
+of I-ORG
+Pennsylvania E-ORG
+is O
+in O
+West B-LOC
+Philadelphia E-LOC
+, O
+Pennsylvania S-LOC
+. O
+```
+
+We can get a list of available input and output encoding labels by running `seqscore convert --help`:
+```
+Usage: seqscore convert [OPTIONS] FILE OUTPUT_FILE
+
+Options:
+  --file-encoding TEXT            [default: UTF-8]
+  --ignore-comment-lines
+  --ignore-document-boundaries / --use-document-boundaries
+  --output-delim TEXT             [default: space]
+  --input-labels [BIO|BIOES|BILOU|BMES|BMEOW|IO|IOB]
+                                  [required]
+  --output-labels [BIO|BIOES|BILOU|BMES|BMEOW|IO|IOB]
+                                  [required]
+  --help                          Show this message and exit.
+```
+
+## Repair
+
+We can also apply repair methods to a file, creating an output file with only valid transitions. For example, we can run `seqscore repair --labels BIO --repair-method conlleval samples/invalid.bio samples/invalid_repair_conlleval.bio`, which will apply the conlleval repair method to the [samples/invalid.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid.bio). The output would be the file [samples/invalid_repair_conlleval.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid_repair_conlleval.bio):
+```
+This O
+is O
+a O
+sentence O
+. O
+
+University B-ORG
+of I-ORG
+Pennsylvania I-ORG
+is O
+in O
+West B-LOC
+Philadelphia I-LOC
+, O
+Pennsylvania B-LOC
+. O
+```
+
+If we want to apply the discard repair method, we can run `seqscore repair --labels BIO --repair-method discard samples/invalid.bio samples/invalid_repair_discard.bio` and the output is the file [samples/invalid_repair_discard.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid_repair_discard.bio):
+```
+This O
+is O
+a O
+sentence O
+. O
+
+University O
+of O
+Pennsylvania O
+is O
+in O
+West B-LOC
+Philadelphia I-LOC
+, O
+Pennsylvania B-LOC
+. O
+```
+
 ## Other commands
 
 Other commands are still being documented, but here is a quick summary:
