@@ -163,6 +163,18 @@ decoding as they are more likely to produce invalid transitions. For example,
 the result of running `seqscore score --labels BIO --repair-method discard --reference samples/reference.bio samples/invalid.bio` is 
 in the file [samples/reference_invalid_discard_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_discard_score.txt).
 
+## Validate
+
+To check if a file has any invalid transitions, we can run `seqscore validate --labels BIO samples/reference.bio` and the result will be in [samples/reference_validate.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_validate.txt):
+ ```
+ No errors found in 0 tokens, 2 sequences, and 1 documents in reference.bio
+ ```
+ 
+ For the example of the [samples/invalid.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid.bio), we can run `seqscore validate --labels BIO samples/invalid.bio` and the result is in [samples/invalid_validate.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid_validate.txt):
+ ```
+Encountered 1 errors in 1 tokens, 2 sequences, and 1 documents in invalid.bio
+Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
+ ```
 ## Other commands
 
 Other commands are still being documented, but here is a quick summary:
