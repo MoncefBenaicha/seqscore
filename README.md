@@ -86,7 +86,6 @@ Pennsylvania B-LOC
 To score the predictions, run:
 `seqscore score --labels BIO --reference samples/reference.bio samples/predicted.bio`
 
-the result is in [samples/reference_predicted_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_predicted_score.txt)
 ```
 | Type   |   Precision |   Recall |     F1 |   Reference |   Predicted |   Correct |
 |--------|-------------|----------|--------|-------------|-------------|-----------|
@@ -132,7 +131,7 @@ Pennsylvania B-LOC
 Note that the token `University` has the label `I-ORG`, but there is
 no preceding `B-ORG`. If we try to score it as before with `seqscore
 score --labels BIO --reference samples/reference.bio samples/invalid.bio`, scoring
-will fail with an error in the file [samples/reference_invalid_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_score.txt):
+will fail:
 ```
 seqscore.encoding.EncodingError: Stopping due to validation errors in invalid.bio:
 Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
@@ -141,7 +140,7 @@ Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
 To score output with invalid transitions, we need to specify a repair
 method which can correct them. We can tell SeqScore to use the same
 approach that conlleval uses (which we refer to as "begin" repair in our
-paper): `seqscore score --labels BIO --repair-method conlleval  --reference samples/reference.bio samples/invalid.bio`, the result will be in the file [samples/reference_invalid_repair_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_repair_score.txt):
+paper): `seqscore score --labels BIO --repair-method conlleval  --reference samples/reference.bio samples/invalid.bio`:
 
 ```
 Validation errors in sequence at line 7 of invalid.bio:
@@ -157,20 +156,28 @@ New: ('B-ORG', 'I-ORG', 'I-ORG', 'O', 'O', 'B-LOC', 'I-LOC', 'O', 'B-LOC', 'O')
 ```
 
 You can use the `-q` flag to suppress the logging of all of the repairs
-applied. You may want to also explore the `discard` repair, which can
+applied. For example, running the command `seqscore score -q --labels BIO --repair-method conlleval  --reference samples/reference.bio samples/invalid.bio` to hide the repiars:
+
+```
+| Type   |   Precision |   Recall |     F1 |   Reference |   Predicted |   Correct |
+|--------|-------------|----------|--------|-------------|-------------|-----------|
+| ALL    |      100.00 |   100.00 | 100.00 |           3 |           3 |         3 |
+| LOC    |      100.00 |   100.00 | 100.00 |           2 |           2 |         2 |
+| ORG    |      100.00 |   100.00 | 100.00 |           1 |           1 |         1 |
+```
+
+You may want to also explore the `discard` repair, which can
 produce higher scores for output from models without a CRF or constrained
-decoding as they are more likely to produce invalid transitions. For example,
-the result of running `seqscore score --labels BIO --repair-method discard --reference samples/reference.bio samples/invalid.bio` is 
-in the file [samples/reference_invalid_discard_score.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_invalid_discard_score.txt).
+decoding as they are more likely to produce invalid transitions. 
 
 ## Validate
 
-To check if a file has any invalid transitions, we can run `seqscore validate --labels BIO samples/reference.bio` and the result will be in [samples/reference_validate.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_validate.txt):
+To check if a file has any invalid transitions, we can run `seqscore validate --labels BIO samples/reference.bio`:
  ```
  No errors found in 0 tokens, 2 sequences, and 1 documents in reference.bio
  ```
  
- For the example of the [samples/invalid.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid.bio), we can run `seqscore validate --labels BIO samples/invalid.bio` and the result is in [samples/invalid_validate.txt](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid_validate.txt):
+For the example of the [samples/invalid.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid.bio), we can run `seqscore validate --labels BIO samples/invalid.bio`:
  ```
 Encountered 1 errors in 1 tokens, 2 sequences, and 1 documents in invalid.bio
 Invalid transition 'O' -> 'I-ORG' for token 'University' on line 7
@@ -255,15 +262,20 @@ Pennsylvania B-LOC
 . O
 ```
 
-## Other commands
+## Count
+We can ouput counts of chunks in the input file. For example, if we run `seqscore count --labels BIO samples/reference.bio samples/reference_count.csv`, the output would be [samples/reference_count.csv](https://github.com/bltlab/seqscore/blob/tutorial/samples/reference_count.csv):
+```
+1	ORG	University of Pennsylvania
+1	LOC	West Philadelphia
+1	LOC	Pennsylvania
+```
 
-Other commands are still being documented, but here is a quick summary:
-* `repair`: Apply a repair method to a file, creating an output file with
-  only valid transitions.
-* `convert`: Convert a file from one encoding to another.
-* `count`: Output counts of chunks in the input file.
-* `validate`: Check whether a file has any invalid transitions.
-
+We can specify the repair method being used in the input file. For example, if we run `seqscore count --repair-method conlleval --labels BIO samples/invalid.bio samples/invalid_count.csv`, we specified the conlleval repair method on the [samples/invalid.bio](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid.bio), the output would be [samples/invalid_count.csv](https://github.com/bltlab/seqscore/blob/tutorial/samples/invalid_count.csv):
+```
+1	ORG	University of Pennsylvania
+1	LOC	West Philadelphia
+1	LOC	Pennsylvania
+```
 
 # FAQ
 
